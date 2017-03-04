@@ -45,8 +45,8 @@ abstract class BaseDaoMongoImpl[T](collection: String, reactiveMongoApi: Reactiv
   override def update(selector: JsObject, toUpdate: JsValue, upsert: Boolean = false)(implicit format : OFormat[T]): Future[Option[T]] = {
     db.flatMap {
       _.findAndUpdate(selector, Json.obj("$set" -> toUpdate), fetchNewObject = true, upsert = upsert).map { r =>
-        val user = r.result[T]
-        user
+        r.result[T]
+        
       }
     }
   }
